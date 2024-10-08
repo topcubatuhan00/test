@@ -1,0 +1,50 @@
+﻿@using DFProject.DefaultProcess
+@using DFProject.Models
+@using DFProject.Utilities
+@using System.Threading;
+@model List<Categories>
+
+@helper traverse(Categories cat)
+{
+    var children = DefaultProcess.getChildren(cat);
+    if (children.Any())
+    {
+        <li class="dropdown">
+            <a class="dropdown-toggle" href="javascript:"><span class="micon dw dw-curve-arrow "></span>@DefaultProcess.getAncestorPath((int)cat.ParentId)@cat.CategoryOrder. @cat.CategoryName</a>
+            <ul class="submenu">
+                @foreach (var child in children)
+                {
+                    @traverse(child)
+                }
+            </ul>
+        </li>
+    }
+    else
+    {
+        if (DefaultProcess.getAncestorPath((int)cat.ParentId) == "")
+        {
+            <li>
+                <a class="dropdown-toggle no-arrow" href="@Url.Action("ContentsByCatID","Content", new {lang = Thread.CurrentThread.CurrentCulture.Name, category = Helper.FriendlyURLTitle(cat.CategoryName), catId = cat.Id})">
+                    <span class="micon dw dw-curve-arrow "></span>@cat.CategoryOrder. @cat.CategoryName
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a class="dropdown-toggle no-arrow" href="@Url.Action("ContentsByCatID","Content", new {lang = Thread.CurrentThread.CurrentCulture.Name, category = Helper.FriendlyURLTitle(cat.CategoryName), catId = cat.Id})">
+                    @DefaultProcess.getAncestorPath((int)cat.ParentId)@cat.CategoryOrder. @cat.CategoryName
+                </a>
+            </li>
+        }
+
+    }
+}
+
+@foreach (var cat in Model)
+{
+    if (cat.ParentId == 0)
+    {
+        @traverse(cat)
+    }
+}

@@ -1,0 +1,51 @@
+﻿@using DFProject.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<Categories>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+@using (Html.BeginForm("RefreshCategories", "Admin", FormMethod.Post))
+{
+    <a href="/Admin/ShowCategories/?langId=1" class="btn btn-info">Türkçe</a>
+    <a href="/Admin/ShowCategories/?langId=2" class="btn btn-info">İngilizce</a>
+    <br /><br />
+    <table class="table table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Kategori İsmi</th>
+            <th>Dil</th>
+            <th>Kategori Sırası</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@Html.HiddenFor(m => m[i].Id) @Model[i].Id</td>
+                <td>@Model[i].CategoryName</td>
+                @if (@Model[i].LangId == 1)
+                {
+                    <td>Türkçe</td>
+                }
+                else
+                {
+                    <td>İngilizce</td>
+                }
+                <td>@Html.TextBoxFor(m => m[i].CategoryOrder, new { @class = "form-control" })</td>
+                <td>@Html.ActionLink("Sil", "RemoveCategory", new { catId = Model[i].Id }, new { @class = "btn btn-danger", onclick = "return confirm('Silmek istediğinize emin misiniz?')" })</td>
+                <td>@Html.ActionLink("Güncelle", "UpdateCategory", new { catId = Model[i].Id }, new { @class = "btn btn-success" })</td>
+            </tr>
+        }
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("ShowCategories", new { page }))
+
+    <a href="~/Admin/AddCategory" class="btn btn-info">Yeni Kategori Ekle</a>
+    <button type="submit" class="btn btn-info">Kaydet</button>
+}

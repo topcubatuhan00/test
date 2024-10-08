@@ -1,0 +1,43 @@
+﻿@using DFProject.DefaultProcess
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+<div style=" width: 100%; padding-left: 20px; padding-top: 5px;">
+    <h1>@DFProject.Resources.Resource.Home</h1>
+    <h2>@DFProject.Resources.Resource.MostViewTopics</h2>
+</div>
+<br />
+<div style="overflow:auto; height: auto;">
+
+    
+        @foreach (var cont in Model)
+        {
+            <div style=" background-color: whitesmoke; border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin:20px;">
+                <a href="~/Content/IncrementViewCount?contId=@cont.Id" style="text-decoration: none; color:black;">
+                    <h4>@DefaultProcess.getAncestorPath(cont.Categories.ParentId)@cont.Categories.CategoryOrder.@cont.ContentOrder. @cont.ContentTitle </h4>
+
+                    <div style="overflow:hidden; height:auto; color:black; font-size:12px;">
+                        @cont.ContentSummary […] @DFProject.Resources.Resource.ReadMore
+                    </div>
+                    <div style="display: flex; background-color: lightgray; border-radius: 5px">
+                        <div style="flex: 1 1 200px;">
+                            <h8>
+                                <span>@DFProject.Resources.Resource.Category: </span>
+                                @DefaultProcess.getAncestorPath(cont.Categories.ParentId)@cont.Categories.CategoryOrder. @cont.Categories.CategoryName
+                            </h8>
+                        </div>
+                        <div>
+                            <h8>
+                                <span>@cont.ContentViewCount</span> @DFProject.Resources.Resource.View
+                            </h8>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    
+</div>

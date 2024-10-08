@@ -1,0 +1,22 @@
+﻿@using DFProject.DefaultProcess
+@using DFProject.Utilities
+@model string
+@{
+    ViewBag.Title = "OpenContentCat";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<link href="~/style.css" rel="stylesheet" />
+
+
+<div style="width: 100%; padding-left: 20px; padding-top: 5px;">
+    <h3><a href="@Url.Action("Index","Home")">@DFProject.Resources.Resource.Home</a> > <a href="@Url.Action("ContentsByCatId","Content", new {category = Helper.FriendlyURLTitle(ViewBag.chosenContent.Categories.CategoryName), catId = ViewBag.chosenContent.Categories.Id})">@DefaultProcess.getAncestorPath(ViewBag.chosenContent.Categories.ParentId)@ViewBag.chosenContent.Categories.CategoryOrder.@ViewBag.chosenContent.Categories.CategoryName</a> > @DefaultProcess.getAncestorPath(ViewBag.chosenContent.Categories.ParentId)@ViewBag.chosenContent.Categories.CategoryOrder.@ViewBag.chosenContent.ContentOrder @ViewBag.chosenContent.ContentTitle</h3>
+</div>
+<br />
+<div style="overflow:auto; height: auto; padding: 20px;">
+    <h1 style="color:black;">@DefaultProcess.getAncestorPath(ViewBag.chosenContent.Categories.ParentId)@ViewBag.chosenContent.Categories.CategoryOrder.@ViewBag.chosenContent.ContentOrder @ViewBag.chosenContent.ContentTitle</h1>
+    <br />
+    <p style="color:black; font-size: 15px;">@ViewBag.chosenContent.ContentViewCount @DFProject.Resources.Resource.View</p>
+    <br />
+    @Html.Raw(ViewBag.chosenContent.ContentBody)
+</div>

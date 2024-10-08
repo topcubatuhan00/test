@@ -1,0 +1,51 @@
+﻿@using DFProject.Models
+@model Users
+@{
+    Layout = null;
+}
+
+<link href="~/Login Page HTML CSS/style.css" rel="stylesheet" />
+<br />
+<br />
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <link href="~/Login Page HTML CSS/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    @if (ViewBag.isSuccessful != null && ViewBag.isSuccessful == false)
+    {
+        <div class="center" style="padding: 25px; ">
+            <h2>Giriş Yapılamadı!</h2>
+            <h3>Lütfen bilgilerinizi kontrol ediniz.</h3>
+            <br />
+            <input type="submit" value="Tamam" onclick="location.href='/Admin/Login'" />
+        </div>
+    }
+    else
+    {
+        <div class="center">
+            <h1>Giriş Yap</h1>
+            <form method="post" action="/Admin/Login">
+                <div class="txt_field">
+                    <input type="email" name="UserEmail" required />
+                    <span></span>
+                    <label>E-Posta</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" name="Password" required />
+                    <span></span>
+                    <label>Şifre</label>
+                </div>
+                <input type="submit" value="Giriş" />
+                <div class="signup_link"></div>
+            </form>
+        </div>
+    }
+</body>
+</html>
